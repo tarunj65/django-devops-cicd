@@ -1,0 +1,60 @@
+{% load static %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{ app_name }}</title>
+        <link rel="stylesheet" href="{% static 'portfolio/css/style.css' %}">
+    </head>
+    <body>
+        <div class="container">
+            <h1>{{ app_name }}</h1>
+
+            <table>
+                <tr>
+                    <td>Application</td>
+                    <td>{{ app_name }}</td>
+                </tr>
+                <tr>
+                    <td>Version</td>
+                    <td>{{ version }}</td>
+                </tr>
+                <tr>
+                    <td>Environment</td>
+                    <td>{{ environment}}</td>
+                </tr>
+                <tr>
+                    <td>Python Version</td>
+                    <td>{{ python_version }}</td>
+                </tr>
+                <tr>
+                    <td>Hostname</td>
+                    <td>{{ hostname }}</td>
+                </tr>
+                <tr>
+                    <td>Server Time</td>
+                    <td>{{ server_time }}</td>
+                </tr>
+                <tr>
+                    <td>Status</td>
+                    <td class="healthy">Healthy</td>
+                </tr>
+
+            </table>
+
+            <hr>
+
+            <h3>Technology Stack</h3>
+
+            <ul>
+                <li>Django</li>
+                <li>Docker</li>
+                <li>Jenkins</li>
+                <li>AWS EC2</li>
+                <li>GitHub</li>
+            </ul>
+        </div>
+
+    </body>
+
+</html>

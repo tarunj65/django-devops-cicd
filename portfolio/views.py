@@ -17,10 +17,10 @@ def home(request):
             "server_time":datetime.now().strftime("%d-%m-%Y %H:%M:%S"),
             }
 
-    return render(request, "dashboard/home.html", context)
+    return render(request, "portfolio/home.html", context)
 
 def about(request):
-    return render(request, "dashboard/about.html")
+    return render(request, "portfolio/about.html")
 
 
 def health(request):
