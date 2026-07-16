@@ -2,16 +2,17 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.conf import settings
 import platform
-import socket
+import socket, os
 from datetime import datetime
 
 # Create your views here.
 
 def home(request):
     context = {
-            "app_name":"Django DevOps Dashboard",
-            "version":"1.0.0",
-            "environment":"Development",
+            "app_name":os.getenv("APP_NAME","Django DevOps Dashboard"),
+            "version":os.getenv("APP_VERSION","1.0.0"),
+            "environment":os.getenv("APP_ENVIRONMENT","Development"),
+            "build_number":os.getenv("BUILD_NUMBER","Local"),
             "python_version":platform.python_version(),
             "hostname":socket.gethostname(),
             "server_time":datetime.now().strftime("%d-%m-%Y %H:%M:%S"),
