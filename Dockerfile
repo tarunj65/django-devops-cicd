@@ -12,9 +12,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-RUN python manage.py check
-RUN python manage.py collectstatic --noinput
+RUN chmod +x entrypoint.sh
 
 EXPOSE 8000
 
-CMD ["gunicorn","-c","deployment/gunicorn.conf.py","config.wsgi:application"]
+ENTRYPOINT ["./entrypoint.sh"]
