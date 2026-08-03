@@ -6,6 +6,7 @@ pipeline {
 	
 		IMAGE_NAME = "tarunjuneja06/devops-repo"
 		IMAGE_TAG = "latest"
+		VERSION_TAG = "${BUILD_NUMBER}"
 	
 	}
 
@@ -42,6 +43,14 @@ pipeline {
 			}
 		
 		}
+		stage('Tag Docker Image') {
+		
+			steps {
+				sh '''
+				   docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${IMAGE_NAME}:${VERSION_TAG}
+				'''
+		}
+		}
 		stage('Login to Docker Hub') {
 		
 			steps {
@@ -61,6 +70,7 @@ pipeline {
 			steps {
 				sh '''
 				   docker push ${IMAGE_NAME}:${IMAGE_TAG}
+				   docker push ${IMAGE_NAME}:${VERSION_TAG}
 				'''
 			}
 		}
