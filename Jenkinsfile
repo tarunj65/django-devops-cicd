@@ -1,6 +1,13 @@
 pipeline {
 	
 	agent any
+	
+	environment {
+	
+		IMAGE_NAME = "tarunjuneja06/devops-repo"
+		IMAGE_TAG = "latest"
+	
+	}
 
 	stages {
 	
@@ -29,11 +36,33 @@ pipeline {
 			steps {
 
 				sh '''
-				   docker build -t tarunjuneja06/devops-repo:latest .
+				   docker build -t ${IMAGE_NAME}:${latest} .
 				'''			
 
 			}
 		
+		}
+		stage('Login to Docker Hub') {
+		
+			steps {
+				withCredentials([usernamePassword(
+					credentialsId: 'docke-hub-creds',
+					usernameVariable: 'DOCKER_USERNAME',
+					passwordVariable: 'DOCKER_PASSWORD')])
+				{
+				sh '''
+				   echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+				'''
+				}
+			}
+		}
+		stage('Push Docker Image') {
+			
+			steps {
+				sh '''
+				   docker push ${IMAGE_NAME}:${IMAGE_TAG}
+				'''
+			}
 		}
 	
 	}
