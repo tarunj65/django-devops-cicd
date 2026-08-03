@@ -36,7 +36,7 @@ pipeline {
 			steps {
 
 				sh '''
-				   docker build -t ${IMAGE_NAME}:${latest} .
+				   docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
 				'''			
 
 			}
@@ -60,7 +60,7 @@ pipeline {
 			
 			steps {
 				sh '''
-				   docker push ${IMAGE_NAME}:${IMAGE_TAG}
+				   docker push ${IMAGE_NAME}:${IMAGE_TAG} .
 				'''
 			}
 		}
