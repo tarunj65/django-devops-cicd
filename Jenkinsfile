@@ -98,9 +98,10 @@ pipeline {
 				sshagent(credentials: ['docker-server-ssh']) {
 
 					sh '''
-						ssh -o StrictHostKeyChecking=no ubuntu@$DOCKER_SERVER '
-						echo "${DOCKER_PASSWORD}" | docker login \
-						-u "${DOCKER_USERNAME}" \
+						ssh -o StrictHostKeyChecking=no ubuntu@${DOCKER_SERVER} << EOF
+						set -e
+						echo '${DOCKER_PASSWORD}' | docker login \
+						-u '${DOCKER_USERNAME}' \
 						--password-stdin
 						
 						cd ~/django-deployment
@@ -108,7 +109,7 @@ pipeline {
 						docker compose up -d
 						docker image prune -f
 						docker logout
-						'
+						EOF
 					'''
 
 				}
