@@ -7,6 +7,8 @@ pipeline {
 		IMAGE_NAME = "tarunjuneja06/devops-repo"
 		IMAGE_TAG = "latest"
 		VERSION_TAG = "${BUILD_NUMBER}"
+		
+		DOCKER_SERVER = "15.0.2.4"
 	
 	}
 
@@ -20,18 +22,6 @@ pipeline {
 		
 		}
 		
-		stage('Verify workspace') {
-			
-			steps {
-			
-				sh '''
-				   pwd
-				   ls -la
-				'''
-
-			}
-
-		}
 		stage('Build docker image') {
 		
 			steps {
@@ -73,6 +63,58 @@ pipeline {
 				   docker push ${IMAGE_NAME}:${VERSION_TAG}
 				'''
 			}
+		}
+		stage('Copy Deployment Files') {
+		
+			steps {
+			
+				sshagent(credentials: ['docker-server-ssh']) {
+
+					sh '''
+						ssh -o StrictHostKeyChecking=no ubuntu@$DOCKER_SERVER "mkdir -p ~/django-deployment/deployment"
+						
+						scp -o StrictHostKeyChecking=no docker-compose.yml \
+						ubuntu@$DOCKER_SERVER:~/django-deployment/
+
+						scp -o StrictHostKeyChecking=no deployment/nginx.conf \
+						ubuntu@$DOCKER_SERVER:~/django-deployment/deployment
+					'''
+
+				}
+
+			}
+
+		}
+		stage('Deploy Application') {
+
+			steps {
+				withCredentials([usernamePassword(
+				       credentialsId: 'docke-hub-creds',
+                                        usernameVariable: 'DOCKER_USERNAME',
+                                        passwordVariable: 'DOCKER_PASSWORD')])
+                                {
+
+
+				sshagent(credentials: ['docker-server-ssh']) {
+
+					sh '''
+						ssh -o StrictHostKeyChecking=no ubuntu@$DOCKER_SERVER '
+						echo "${DOCKER_PASSWORD}" | docker login \
+						-u "${DOCKER_USERNAME}" \
+						--password-stdin
+						
+						cd ~/django-deployment
+						docker compose pull
+						docker compose up -d
+						docker image prune -f
+						docker logout
+						'
+					'''
+
+				}
+
+			}
+
 		}
 	
 	}
