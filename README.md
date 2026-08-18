@@ -353,7 +353,9 @@ The deployment process:
 
 <!-- SCREENSHOT: Add screenshot showing the complete Jenkins pipeline with successful stages -->
 
-![Jenkins CI/CD pipeline](screenshots/04-jenkins-pipeline.png)
+![Jenkins CI/CD pipeline](screenshots/04-jenkins-pipeline-1.png)
+![Jenkins CI/CD pipeline](screenshots/04-jenkins-pipeline-2.png)
+![Jenkins CI/CD pipeline](screenshots/04-jenkins-pipeline-3.png)
 
 > **Screenshot:** Successful Jenkins pipeline showing the CI/CD stages.
 
