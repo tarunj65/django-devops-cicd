@@ -12,3 +12,4 @@ variable "admin_ip" {
   type        = string
 
 }
+

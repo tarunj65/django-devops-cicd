@@ -15,7 +15,8 @@ override.tf.json
 *_override.tf.json
 
 # Variable files containing secrets
-terraform.tfvars
+*.tfvars
+*.tfvars.json
 
 # Terraform plan files
 *.tfplan

@@ -1,5 +1,5 @@
 resource "aws_security_group" "jenkins" {
-  name        = "jenkins-sg"
+  name        = "terraform-jenkins-sg"
   description = "Security group for Jenkins server"
   vpc_id      = aws_vpc.main.id
 
@@ -28,13 +28,13 @@ resource "aws_security_group" "jenkins" {
   }
 
   tags = {
-    Name = "jenkins-sg"
+    Name = "terraform-jenkins-sg"
   }
 }
 
 
 resource "aws_security_group" "docker_server" {
-  name        = "docker-server-sg"
+  name        = "terraform-docker-server-sg"
   description = "Security group for Docker server"
   vpc_id      = aws_vpc.main.id
 
@@ -54,6 +54,14 @@ resource "aws_security_group" "docker_server" {
     security_groups = [aws_security_group.jenkins.id]
   }
 
+  ingress {
+    description = "temporary ssh from admin"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = [var.admin_ip]
+  }
+
   egress {
     description = "Allow all outbound traffic"
     from_port   = 0
@@ -63,6 +71,6 @@ resource "aws_security_group" "docker_server" {
   }
 
   tags = {
-    Name = "docker-server-sg"
+    Name = "terraform-docker-server-sg"
   }
 }
