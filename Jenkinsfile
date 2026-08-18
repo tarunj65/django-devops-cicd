@@ -6,22 +6,21 @@ pipeline {
         IMAGE_NAME = 'tarunjuneja06/devops-repo'
         IMAGE_TAG = "${BUILD_NUMBER}"
 
-        DOCKER_SERVER = '10.0.1.159'
+        DOCKER_SERVER = '10.0.1.229'
         DEPLOY_DIR = '/home/ubuntu/django-deployment'
 
         DEBUG = 'False'
         APP_NAME = 'django-dashboard'
         APP_ENVIRONMENT = 'production'
 
-        ALLOWED_HOSTS = '43.205.232.51'
+        ALLOWED_HOSTS = '13.232.101.177'
     }
 
     stages {
 
         stage('Checkout') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/tarunj65/django-devops-cicd.git'
+                checkout scm
             }
         }
 
